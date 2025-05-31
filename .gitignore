@@ -9,3 +9,8 @@
 
 # Ignorar arquivo de variáveis de ambiente
 .env
+
+# Ignorar configurações de IDE e editores
+.vscode/
+documentos/.obsidian/
+www/.vscode/
