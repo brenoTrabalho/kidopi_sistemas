@@ -11,7 +11,7 @@
 
 	1. **Clone este repositório**
 		```bash
-			git clone https://github.com/seu-usuario/seu-repositorio.git
+			git clone git@github.com:brenoTrabalho/kidopi_sistemas.git
 			cd seu-repositorio/kidopi_sistemas
 		```
 
