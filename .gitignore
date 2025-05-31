@@ -1,0 +1,11 @@
+# Ignorar completamente as pastas abaixo
+/documentos/kidopi_testes/
+/dump/
+/logs/
+/mongo/
+/www/CleverCare/
+/www/saudecorp/
+/www/gplc/
+
+# Ignorar arquivo de variáveis de ambiente
+.env

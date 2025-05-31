@@ -1,0 +1,54 @@
+services:
+    php:
+        build:
+            context: ./config
+            dockerfile: Dockerfile
+        container_name: php-kidopi
+        ports:
+            - "80:80"
+            - "${APACHE_PORT}:80"
+        volumes:
+            - ./www:/var/www/html
+            - ./logs/php:/var/log/apache2
+            - ./logs/xdebug:/var/log
+            - ./config/php/php.ini:/usr/local/etc/php/php.ini
+        networks:
+            - dev-network
+
+    mysql:
+        image: mysql:5.6
+        container_name: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+        ports:
+            - "${MYSQL_PORT}:3306"
+        volumes:
+            - ./logs/mysql:/var/log/mysql
+        networks:
+            - dev-network
+
+    mongo:
+        image: mongo:4.4.12
+        container_name: mongo
+        ports:
+            - "${MONGO_PORT}:27017"
+        volumes:
+            - ./logs/mongo:/var/log/mongodb
+        networks:
+            - dev-network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        container_name: phpmyadmin
+        environment:
+            PMA_HOST: mysql
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+            - "${PHPMYADMIN_PORT}:80"
+        networks:
+            - dev-network
+
+networks:
+    dev-network:
+        driver: bridge
