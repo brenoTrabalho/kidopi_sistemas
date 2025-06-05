@@ -5,7 +5,6 @@ services:
             dockerfile: Dockerfile
         container_name: php-kidopi
         ports:
-            - "80:80"
             - "${APACHE_PORT}:80"
         volumes:
             - ./www:/var/www/html

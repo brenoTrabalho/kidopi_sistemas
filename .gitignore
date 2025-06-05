@@ -1,5 +1,6 @@
 # Ignorar completamente as pastas abaixo
 /documentos/kidopi_testes/
+/www/
 /dump/
 /logs/
 /mongo/

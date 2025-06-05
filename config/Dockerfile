@@ -8,12 +8,12 @@ RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
     sed -i '/stretch-updates/d' /etc/apt/sources.list
 
 # Instala dependências
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --allow-unauthenticated \
     libfreetype6-dev \
-    libjpeg62-turbo-dev \
+    libjpeg-dev \
     libpng-dev \
     libssl-dev \
-    && docker-php-ext-configure gd \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd mysqli \
     && rm -rf /var/lib/apt/lists/*
 
@@ -21,11 +21,11 @@ RUN apt-get update && apt-get install -y \
 RUN a2enmod rewrite
 
 # Instala extensão mongo antiga (compatível com PHP 5.6)
-RUN pecl install mongo-1.6.16 && docker-php-ext-enable mongo
+RUN pecl channel-update pecl.php.net && \
+    pecl install mongo-1.6.16 && \
+    docker-php-ext-enable mongo
 
-# Define diretório padrão do Apache
-WORKDIR /var/www/html
-
+# Remove configuração antiga do xdebug se existir
 RUN rm -f /usr/local/etc/php/conf.d/xdebug.ini || true
 
 # Instalação limpa do Xdebug 2.5.5
@@ -33,4 +33,8 @@ RUN pecl channel-update pecl.php.net && \
     pecl install xdebug-2.5.5 && \
     docker-php-ext-enable xdebug
 
+# Define diretório padrão do Apache
+WORKDIR /var/www/html
+
+# Copia configuração do xdebug
 COPY ./php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
